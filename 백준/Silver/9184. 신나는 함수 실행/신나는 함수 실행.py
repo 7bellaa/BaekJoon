@@ -1,5 +1,5 @@
 import sys
-dp = [[[0 for _ in range(50)] for _ in range(50)] for _ in range(50)]
+dp = [[[0 for _ in range(21)] for _ in range(21)] for _ in range(21)]
 
 def w(a,b,c):
     if a <= 0 or b <= 0 or c <= 0:
