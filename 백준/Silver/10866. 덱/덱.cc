@@ -1,72 +1,46 @@
 #include <iostream>
 #include <string>
+#include <deque>
 using namespace std;
-
-const int MX = 20000;
-int dat[2*MX+1];
-int head = MX, tail = MX;
-
-void push_front(int x){
-    dat[--head] = x;
-}
-
-void push_back(int x){
-    dat[tail++] = x;
-}
-
-void pop_front(){
-    head++;
-}
-
-void pop_back(){
-    tail--;
-}
-
-int front(){
-    return dat[head];
-}
-
-int back(){
-    return dat[tail-1];
-}
 
 int main(void) {
     ios::sync_with_stdio(0), cin.tie(0);
+    deque<int> q;
     int n, x;
     cin >> n;
     while (n--) {
         string s; cin >> s;
         if (s == "push_back") {
             cin >> x;
-            push_back(x);
+            q.push_back(x);
         }
         else if (s == "push_front") {
             cin >> x;
-            push_front(x);
+            q.push_front(x);
         }
         else if (s == "size") {
-            cout << tail-head << '\n';
+            cout << q.size() << '\n';
         }
         else if (s == "empty") {
-            cout << !(tail-head) << '\n';
+            cout << (int)q.empty() << '\n';
         }
-        else if (head == tail){
+        else if (q.empty()){
             cout << "-1\n";
         }
         else {
             if (s == "pop_front") {
-                cout << front() << '\n';
-                pop_front();
+                cout << q.front() << '\n';
+                q.pop_front();
             }
             else if (s == "pop_back") {
-                cout << back() << '\n';
-                pop_back();
+                cout << q.back() << '\n';
+                q.pop_back();
             }
             else if (s == "front") {
-                cout << front() << '\n';
+                cout << q.front() << '\n';
             }
             else if (s == "back") {
-                cout << back() << '\n';
+                cout << q.back() << '\n';
             }
         }
     }
