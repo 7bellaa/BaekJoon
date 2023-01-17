@@ -4,6 +4,7 @@ using namespace std;
 
 int main(void) {
     while (1) {
+        ios::sync_with_stdio(0), cin.tie(0);
         string s;
         getline(cin, s);
         if (s == ".") break;
