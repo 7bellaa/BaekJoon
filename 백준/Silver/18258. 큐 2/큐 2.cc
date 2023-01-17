@@ -1,11 +1,28 @@
 #include <iostream>
 #include <string>
-#include <queue>
 using namespace std;
+
+const int MX = 4000000;
+int dat[MX], head, tail;
+
+void push(int x){
+    dat[tail++] = x;
+}
+
+void pop(){
+    head++;
+}
+
+int front(){
+    return dat[head];
+}
+
+int back(){
+    return dat[tail-1];
+}
 
 int main(void) {
     ios::sync_with_stdio(0), cin.tie(0);
-    queue<int> q;
     string s;
     int n, x;
     cin >> n;
@@ -13,25 +30,25 @@ int main(void) {
         cin >> s;
         if (s == "push") {
             cin >> x;
-            q.push(x);
+            push(x);
         }
         else if (s == "pop") {
-            if (q.empty()) cout << "-1\n";
-            else {cout << q.front() << '\n'; q.pop();}
+            if (head == tail) cout << "-1\n";
+            else {cout << front() << '\n'; pop();}
         }
         else if (s == "size") {
-            cout << q.size() << '\n';
+            cout << tail-head << '\n';
         }
         else if (s == "empty") {
-            cout << (int)q.empty() << '\n';
+            cout << !(tail-head) << '\n';
         }
         else if (s == "front") {
-            if (q.empty()) cout << "-1\n";
-            else cout << q.front() << '\n';
+            if (head == tail) cout << "-1\n";
+            else cout << front() << '\n';
         }
         else {
-            if (q.empty()) cout << "-1\n";
-            else cout << q.back() << '\n';
+            if (head == tail) cout << "-1\n";
+            else cout << back() << '\n';
         }
     }
     return 0;
