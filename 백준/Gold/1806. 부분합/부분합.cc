@@ -11,14 +11,13 @@ int main() {
         v[i] += v[i-1];
     }
 
-    int start = 0, end = 1;
+    int start = 0, end = 0;
     int cmp = N+1;
 
-    while (end <= N) {
-        if (v[end] - v[start] < S) {end++; continue;}
+    while (end++ <= N) {
+        if (v[end] - v[start] < S) continue;
         while (v[end] - v[start] >= S) start++;
         if (end - start + 1 < cmp) cmp = end - start + 1;
-        end++;
         start--;
     }
     if (cmp == N+1) cout << 0;
