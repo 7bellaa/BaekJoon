@@ -18,7 +18,7 @@ def merge(x,y):
         root[x] = y
     else:
         root[y] = x
-    if rank[x] == rank[y]: x += 1
+    if rank[x] == rank[y]: rank[x] += 1
 
 for _ in range(m):
     a = list(map(int, input().split()))
