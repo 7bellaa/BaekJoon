@@ -20,6 +20,18 @@ void merge(int x, int y) {
     military[y] = 0;
 }
 
+void war(int p, int q) {
+    p = find(p);
+    q = find(q);
+    if (p == q) {
+        root[p] = root[q] = military[p] = military[q] = 0;
+    }
+    if (military[p] < military[q]) swap(p, q);
+    military[p] -= military[q];
+    military[q] = 0;
+    root[q] = p;
+}
+
 int main() {
     ios::sync_with_stdio(0); cin.tie(0);
     cin >> n >> m;
@@ -31,21 +43,7 @@ int main() {
     while (m--) {
         cin >> o >> p >> q;
         if (o == 1) merge(p, q);
-        else {
-            p = find(p);
-            q = find(q);
-            if (military[p] > military[q]) {
-                military[p] -= military[q];
-                military[q] = 0;
-                root[q] = p;
-            } else if (military[p] < military[q]) {
-                military[q] -= military[p];
-                military[p] = 0;
-                root[p] = q;
-            } else {
-                root[p] = root[q] = military[p] = military[q] = 0;
-            }
-        }
+        else war(p, q);
     }
     sort(military.begin(), military.end());
     vector<int> ans;
@@ -55,4 +53,4 @@ int main() {
     cout << ans.size() << '\n';
     for (auto i : ans) 
         cout << i << ' ';
-}
+} 
