@@ -5,8 +5,8 @@ using namespace std;
 int main() {
     ll n; cin >> n;
     ll ans = 1;
-    for (ll i = 2; i <= n; i++) {
-        ans *= i;
+    for (; n > 0; n--) {
+        ans *= n;
         while (!(ans % 10)) ans /= 10;
         ans %= 1000000000000;
     }
