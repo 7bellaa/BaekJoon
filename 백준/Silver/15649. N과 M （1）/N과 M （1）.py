@@ -1,18 +1,20 @@
 n, m = map(int, input().split())
-a = []
+vis = [0] * (n+1)
+ans = []
 
-def solve(x):
-    global a
+def f(x):
+    global vis, ans
+
     if x == m:
-        print(*a)
-        a.pop()
+        print(*ans)
         return
+    
+    for i in range(1, n+1):
+        if not vis[i]:
+            vis[i] = 1
+            ans.append(i)
+            f(x+1)
+            vis[i] = 0
+            ans.pop()
 
-    for i in range(1,n+1):
-        if i not in a:
-            a.append(i)
-            solve(x+1)
-
-    if x != 0: a.pop()
-
-solve(0)
+f(0)
