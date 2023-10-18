@@ -1,27 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void dfs(vector<vector<int>>& graph, vector<int>& vis, int cur, int& dist) {
-    vis[cur] = ++dist;
-    for (auto x : graph[cur]) {
-        if (vis[x] == 0) dfs(graph, vis, x, dist);
+int N, M, R, a, b, cnt;
+vector<vector<int>> graph;
+vector<int> vis;
+
+void dfs(int cur) {
+    vis[cur] = ++cnt;
+    for (auto i : graph[cur]) {
+        if (vis[i] == 0) dfs(i);
     }
 }
 
 int main() {
     ios::sync_with_stdio(0); cin.tie(0);
-    int N, M, R, dist = 0;
     cin >> N >> M >> R;
-    vector<vector<int>> graph(N+1);
-    vector<int> vis(N+1, 0);
-    while (M--) {
-        int u, v; cin >> u >> v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);
+    vis = vector<int>(N+1, 0);
+    graph = vector<vector<int>>(N+1);
+
+    for (int i = 0; i < M; i++) {
+        cin >> a >> b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
     }
 
-    for (auto &e : graph) sort(e.begin(), e.end(), greater<int>());
-
-    dfs(graph, vis, R, dist);
+    for (auto &i : graph) sort(i.begin(), i.end(), greater<int>());
+    dfs(R);
     for (int i = 1; i <= N; i++) cout << vis[i] << '\n';
 }
