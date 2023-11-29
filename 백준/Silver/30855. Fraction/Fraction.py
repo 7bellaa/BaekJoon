@@ -1,4 +1,13 @@
-from fractions import Fraction
+from math import gcd
+
+class Fraction:
+    def __init__(self, numerator, denominator):
+        self.numerator = numerator.numerator * denominator.denominator
+        self.denominator = numerator.denominator * denominator.numerator
+    
+    def __add__(self, other):
+        return Fraction(self.numerator * other.denominator + other.numerator * self.denominator, self.denominator * other.denominator)
+
 n = input()
 query = input().split()
 
@@ -32,7 +41,7 @@ def to3(q):
 
 def f(q):
     global stack
-    if len(q) == 1: return int(q[0])
+    if len(q) == 1: return Fraction(int(q[0]), 1)
 
     if q[0] != '(' or q[-1] != ')':
         print(-1)
@@ -42,4 +51,5 @@ def f(q):
     return f(q[0]) + Fraction(f(q[1]), f(q[2]))
 
 ans = f(query)
-print(ans.numerator, ans.denominator)
+G = gcd(ans.numerator, ans.denominator)
+print(ans.numerator//G, ans.denominator//G)
