@@ -35,8 +35,7 @@ void fill_dp(ll cur, ll prev) {
   for (auto [nx, d] : graph[cur]) {
     if (nx == prev)
       continue;
-    dist_sum[nx] =
-        dist_sum[cur] - d * (child_num[nx]) + d * (N - child_num[nx] - 2);
+    dist_sum[nx] = dist_sum[cur] + d * (N - 2 * child_num[nx] - 2);
     fill_dp(nx, cur);
   }
 }
