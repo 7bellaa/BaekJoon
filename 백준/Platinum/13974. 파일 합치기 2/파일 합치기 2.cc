@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <limits>
 using namespace std;
 
 using ll = long long;
@@ -21,10 +20,8 @@ void solve() {
       int j = i + len - 1;
       dp[i][j] = INF;
 
-      for (int k = K[i][j - 1]; k <= K[i + 1][j]; k++) {
-        if (k >= j)
-          continue;
-
+      int k_end = min((ll)j - 1, K[i + 1][j]);
+      for (int k = K[i][j - 1]; k <= k_end; k++) {
         ll cand = dp[i][k] + dp[k + 1][j] + prefix_sum[j] - prefix_sum[i - 1];
         if (dp[i][j] > cand) {
           dp[i][j] = cand;
