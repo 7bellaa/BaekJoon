@@ -2,7 +2,7 @@
 using namespace std;
 
 const int N_MAX = 100001;
-int N, M, sq = 1, max_freq;
+int N, M, sq = 1, max_freq = 1; // max_freq 초기화 빼먹었음.
 int arr[N_MAX], cnt[N_MAX], cntcnt[N_MAX], ans[N_MAX];
 
 struct Query {
@@ -11,8 +11,11 @@ struct Query {
   bool operator<(const Query &o) const {
     // division by zero 주의
     int i1 = L / sq, i2 = o.L / sq;
-    if (i1 == i2)
+    if (i1 == i2) {
+      if (i1 & 1)
+        return R > o.R;
       return R < o.R;
+    }
     return i1 < i2;
   }
 };
@@ -52,7 +55,7 @@ void solve() {
   int l = 0, r = 0;
   // 초기값 설정 (init에서 하는게 나을수도)
   ++cntcnt[++cnt[arr[0]]];
-  for (auto q : Q) {
+  for (const auto &q : Q) { // 참조로 받아서 오버헤드 줄이기
     // 구간 증가
     while (l > q.L) {
       plus_count(arr[--l]);
