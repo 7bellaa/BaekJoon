@@ -13,6 +13,7 @@ void solve() {
   for (int len = 2; len <= n; len++) {
     for (int i = 0; i < n - len + 1; i++) {
       int j = i + len - 1;
+      dp[i][j] = 0x3f3f3f3f;
       for (int k = i; k < j; k++) {
         dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + cost(i, k, j));
       }
@@ -31,8 +32,11 @@ int main() {
     arr[i] = {t1, t2};
   }
 
-  fill(&dp[0][0], &dp[500][501], 0x3f3f3f3f);
-  for (int i = 0; i < n; i++)
-    dp[i][i] = 0;
+  // fill INF는 여기서 안하고 dp[i][j] 값 계산할때 시작부분에 넣으면됨.
+  // fill(&dp[0][0], &dp[500][501], 0x3f3f3f3f);
+
+  // dp[i][i]는 행렬 한개만 있는거라 안곱하니까 0임.
+  // 근데 전역에 선언해서 따로 값 안넣어도 될듯.
+  // for (int i = 0; i < n; i++) dp[i][i] = 0;
   solve();
 }
