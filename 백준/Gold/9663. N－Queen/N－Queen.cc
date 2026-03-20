@@ -3,15 +3,11 @@ using namespace std;
 
 const int N_MAX = 15;
 
-int n, queen[N_MAX];
+int n, col[N_MAX], diag1[2 * N_MAX], diag2[2 * N_MAX];
 
 bool is_valid(int x, int y) {
-  for (int i = 0; i < x; i++) {
-    if (queen[i] == y)
-      return false;
-    if ((x - i) == abs(y - queen[i]))
-      return false;
-  }
+  if (col[y] || diag1[n + x - y] || diag2[x + y])
+    return false;
   return true;
 }
 
@@ -24,9 +20,15 @@ int dfs(int x) {
     if (!is_valid(x, i))
       continue;
 
-    queen[x] = i;
+    col[i] = true;
+    diag1[n + x - i] = true;
+    diag2[x + i] = true;
+
     ans += dfs(x + 1);
-    queen[x] = -1;
+
+    col[i] = false;
+    diag1[n + x - i] = false;
+    diag2[x + i] = false;
   }
 
   return ans;
@@ -36,6 +38,5 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
   cin >> n;
-  fill(&queen[0], &queen[n], -1);
   cout << dfs(0);
 }
