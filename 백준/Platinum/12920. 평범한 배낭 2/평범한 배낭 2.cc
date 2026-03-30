@@ -2,11 +2,7 @@
 using namespace std;
 
 struct Item {
-  int v, c, k;
-  friend istream& operator>>(istream& is, Item& item) {
-    is >> item.v >> item.c >> item.k;
-    return is;
-  }
+  int w, v;
 };
 
 vector<Item> items;
@@ -17,20 +13,26 @@ int main() {
   cin.tie(nullptr);
 
   cin >> N >> M;
+  items.reserve(N * 14);
+
   for (int i = 0; i < N; i++) {
-    Item tmp;
-    cin >> tmp;
-    for (int i = 0; i < 15 && tmp.k / (1 << i); i++) {
-      items.push_back({tmp.v * (1 << i), tmp.c * (1 << i), 1});
-      tmp.k -= 1 << i;
+    int v, c, k;
+    cin >> v >> c >> k;
+
+    int b = 1;
+    while (k >= b) {
+      items.push_back({v * b, c * b});
+      k -= b;
+      b <<= 1;
     }
-    if (tmp.k > 0) items.push_back({tmp.v * tmp.k, tmp.c * tmp.k, 1});
+
+    if (k > 0) items.push_back({v * k, c * k});
   }
 
   vector<int> dp(M + 1, 0);
-  for (int i = 0; i < items.size(); i++) {
-    for (int j = M; j >= items[i].v; j--) {
-      dp[j] = max(dp[j], dp[j - items[i].v] + items[i].c);
+  for (const auto& i : items) {
+    for (int j = M; j >= i.w; j--) {
+      dp[j] = max(dp[j], dp[j - i.w] + i.v);
     }
   }
   cout << *max_element(dp.begin(), dp.end()) << '\n';
