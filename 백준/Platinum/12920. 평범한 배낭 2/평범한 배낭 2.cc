@@ -35,5 +35,5 @@ int main() {
       dp[j] = max(dp[j], dp[j - i.w] + i.v);
     }
   }
-  cout << *max_element(dp.begin(), dp.end()) << '\n';
+  cout << dp[M];
 }
