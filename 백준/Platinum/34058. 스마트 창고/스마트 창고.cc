@@ -18,29 +18,23 @@ void init() {
 }
 
 void solve() {
+  vector<int> col_sum(N_MAX), dp1(N_MAX), dp2(N_MAX + 1);
   for (int j1 = 1; j1 <= M; j1++) {
     for (int j2 = j1; j2 <= M; j2++) {
-      vector<int> dp1(N_MAX), dp2(N_MAX + 1);
+      for (int i = 1; i <= N; i++)
+        col_sum[i] = prefix_sum[i][j2] - prefix_sum[i][j1 - 1] -
+                     prefix_sum[i - 1][j2] + prefix_sum[i - 1][j1 - 1];
+      // i행을 아래쪽 끝으로 하는 윗부분 최대구간합
+      for (int i = 1; i <= N; i++)
+        dp1[i] = max(col_sum[i], dp1[i - 1] + col_sum[i]);
 
-      // i행 포함하는 윗부분 최대구간합
-      for (int i = 1; i <= N; i++) {
-        int cur = prefix_sum[i][j2] - prefix_sum[i][j1 - 1] -
-                  prefix_sum[i - 1][j2] + prefix_sum[i - 1][j1 - 1];
-        dp1[i] = max(cur, dp1[i - 1] + cur);
-      }
+      // i행을 위쪽 끝으로 하는 아랫부분 최대구간합
+      for (int i = N; i >= 1; i--)
+        dp2[i] = max(col_sum[i], dp2[i + 1] + col_sum[i]);
 
-      // i행 포함하는 아랫부분 최대구간합
-      for (int i = N; i >= 1; i--) {
-        int cur = prefix_sum[i][j2] - prefix_sum[i][j1 - 1] -
-                  prefix_sum[i - 1][j2] + prefix_sum[i - 1][j1 - 1];
-        dp2[i] = max(cur, dp2[i + 1] + cur);
-      }
-
-      for (int r = 1; r <= N; r++) {
-        int cur = prefix_sum[r][j2] - prefix_sum[r][j1 - 1] -
-                  prefix_sum[r - 1][j2] + prefix_sum[r - 1][j1 - 1];
-        ans[r][j1][j2] = dp1[r] + dp2[r] - cur;
-      }
+      // r행 포함하는 최대구간합
+      for (int r = 1; r <= N; r++)
+        ans[r][j1][j2] = dp1[r] + dp2[r] - col_sum[r];
     }
   }
 
